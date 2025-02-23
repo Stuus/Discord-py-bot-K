@@ -4,8 +4,9 @@ import discord
 
 from discord.ext import commands
 
-from tools.set import ConfigInfo
+from tools.color import Color as C
 from tools.set import AutoStatus
+from tools.set import ConfigInfo
 
 
 class CogStatus(commands.Cog):
@@ -18,7 +19,7 @@ class CogStatus(commands.Cog):
     #set_status
     @commands.command()
     async def set_status(self, ctx:commands.Context, status:str, game):
-        if ctx.author.id == ConfigInfo.owner_id:
+        if ctx.author.id == ConfigInfo.owner:
             self.auto_status_active = 0
             games = discord.Game(name=game)
             try:
@@ -49,7 +50,7 @@ class CogStatus(commands.Cog):
     #auto_status
     @commands.command()
     async def auto_status(self, ctx:commands.Context):
-        if ctx.author.id == ConfigInfo.owner_id:
+        if ctx.author.id == ConfigInfo.owner:
             await ctx.send(f'auto_status on!')
             self.auto_status_active = -1
         else:
@@ -69,4 +70,4 @@ class CogStatus(commands.Cog):
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogStatus(client))
     dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} [Cog] -> load cog_status')
+    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.libiue}load cog_status{C.reset}')

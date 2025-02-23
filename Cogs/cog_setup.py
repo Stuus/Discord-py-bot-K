@@ -4,6 +4,7 @@ import sys
 
 from discord.ext import commands
 
+from tools.color import Color as C
 from tools.set import ConfigInfo
 
 class CogSetups(commands.Cog):
@@ -13,7 +14,7 @@ class CogSetups(commands.Cog):
     #LOAD
     @commands.command()
     async def load(self, ctx:commands.Context, cog):
-        if ctx.author.id == ConfigInfo.owner_id:
+        if ctx.author.id == ConfigInfo.owner:
             try:
                 await self.client.load_extension(f"Cogs.{cog.lower()}")
                 await ctx.send(f"Successfully loaded **{cog}.py**") 
@@ -24,7 +25,7 @@ class CogSetups(commands.Cog):
     #RELOAD
     @commands.command()
     async def reload(self, ctx:commands.Context, cog):
-        if ctx.author.id == ConfigInfo.owner_id:
+        if ctx.author.id == ConfigInfo.owner:
             try:
                 await self.client.reload_extension(f"Cogs.{cog.lower()}")
                 await ctx.send(f"Successfully reloaded **{cog}.py**")
@@ -36,7 +37,7 @@ class CogSetups(commands.Cog):
     #Unload
     @commands.command()
     async def unload(self, ctx:commands.Context, cog):
-        if ctx.author.id == ConfigInfo.owner_id:
+        if ctx.author.id == ConfigInfo.owner:
             try:
                 await self.client.unload_extension(f"Cogs.{cog.lower()}")
                 await ctx.send(f"Successfully unloaded **{cog}.py**")
@@ -48,7 +49,7 @@ class CogSetups(commands.Cog):
     #ext_load(Extension_load)
     @commands.command()
     async def ext_load(self, ctx:commands.Context, extension):
-        if ctx.author.id == ConfigInfo.owner_id:
+        if ctx.author.id == ConfigInfo.owner:
             try:
                 ext = os.listdir(f'./ext_{extension}')
                 for i in ext:
@@ -64,9 +65,10 @@ class CogSetups(commands.Cog):
     #shut_down
     @commands.command()
     async def shut_down(self, ctx:commands.Context):
-        if ctx.author.id == ConfigInfo.owner_id:
+        if ctx.author.id == ConfigInfo.owner:
             await ctx.send(f"au revoir")
             await self.client.close()
+            print(f'{C.purple}\t\t\t- - - - - - CLINET CLOSE - - - - - -{C.reset}')
         else:
             await ctx.send(f"No Permissions!")
             
@@ -76,11 +78,11 @@ class CogSetups(commands.Cog):
     #this command won't restart autocomplete
     @commands.command()
     async def re_start(self, ctx:commands.Context):
-        if ctx.author.id == ConfigInfo.owner_id:
+        if ctx.author.id == ConfigInfo.owner:
             dt = str(datetime.datetime.now())[:-7]
             await ctx.send(f"> {dt} Re_Start!")
             await self.client.close()
-            print('\t\t\t- - - - - - CLINET CLOSE - - - - - -')
+            print(f'{C.purple}\t\t\t- - - - - - CLINET CLOSE - - - - - -{C.reset}')
             os.execv(sys.executable, ['python'] + sys.argv)
         else:
             await ctx.send(f"No Permissions!")
@@ -89,4 +91,4 @@ class CogSetups(commands.Cog):
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogSetups(client))
     dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} [Cog] -> load cog_setup')
+    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.libiue}load cog_setup{C.reset}')

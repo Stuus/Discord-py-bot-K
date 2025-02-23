@@ -6,6 +6,7 @@ from discord import app_commands
 from discord.ext import commands
 from typing import Optional
 
+from tools.color import Color as C
 from tools.func import yaml_loader,YamlLoaderError
 
 
@@ -40,4 +41,4 @@ class CogWeapons(commands.Cog):
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogWeapons(client))
     dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} [Cog] -> load cog_weapons')
+    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.libiue}load cog_weapons{C.reset}')

@@ -1,17 +1,8 @@
 from discord import Colour
 
 from tools import func
-
-class Color():
-    white = '\033[0;37;40m'
-    red   = '\033[1;31;40m'
-    green = '\033[1;32;40m'
-    yellow= '\033[1;33;40m'
-    blue  = '\033[1;34;40m'
-    purple= '\033[1;35;40m'
-    libiue= '\033[1;36;40m'
-    gray  = '\033[1;31;90m'
-    reset = '\033[0m'
+from tools.func import BotInfo
+from tools.color import Color
 
 class LoginError(Exception):
     pass
@@ -23,7 +14,7 @@ if bot_objects == []:
     raise LoginError(f"{Color.red}No Any bot data found. Please check path : `./assets/bot_data.yaml`{Color.reset}")
 
 if len(bot_objects) == 1:
-    bot_data = bot_objects[0]
+    bot_data:BotInfo = bot_objects[0]
     print(bot_data)
 
 elif len(bot_objects) > 1:
@@ -32,7 +23,7 @@ elif len(bot_objects) > 1:
         bt = bot_objects[i]
         print(f"{Color.purple}{bt.bot_name} : \t\t Enter [{i}]{Color.reset}")
     c = int(input('number: '))
-    bot_data = bot_objects[c]
+    bot_data:BotInfo = bot_objects[c]
 
 else:
     raise LoginError(f"{bot_objects}")

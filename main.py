@@ -19,11 +19,11 @@ import sys
 import typing
 import yaml
 
-
 from discord.ext import commands
 
-from tools.func import BotInfo
+from tools.color import Color as C
 from tools.set import ConfigInfo
+
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
@@ -43,22 +43,22 @@ class CogRead:
                 add = str(f'Cogs.{Filename[:-3]}')
                 cogs.append(add)
     else:
-        print(f"Error: Cogs folder not found at {cogs_path}")
+        print(f"{C.red}Error: Cogs folder not found at {cogs_path}{C.reset}")
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 class Client(commands.Bot):
     def __init__(self):
-        super().__init__(command_prefix='bot: ', intents=discord.Intents().all())
+        super().__init__(command_prefix=ConfigInfo.command_prefix, intents=discord.Intents().all())
         self.cogslist = CogRead.cogs
 
     async def on_ready(self):
         dt = str(datetime.datetime.now())[:-7]
-        print(f'{dt} Logged with :  {self.user.name}')
+        print(f'{dt}{C.green} Logged with :  {self.user.name}{C.reset}')
         synced = await self.tree.sync()
         command_names = [command.name for command in synced]
-        print(f'                    Application commands Synced  {str(len(synced))}   Commands')
-        print(f'                    {command_names}')
+        print(f'{C.blue}                    Application commands Synced  {str(len(synced))}   Commands')
+        print(f'                    {command_names}{C.reset}')
 
     async def setup_hook(self):
         for ext in self.cogslist:

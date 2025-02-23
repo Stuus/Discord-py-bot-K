@@ -7,7 +7,9 @@ from discord.app_commands import Choice
 from discord.ext import commands
 from typing import Optional
 
+from tools.color import Color as C
 from tools.func import xfill
+
 
 class CogRandom(commands.Cog):
     def __init__(self, client:commands.Bot):
@@ -67,4 +69,4 @@ class CogRandom(commands.Cog):
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogRandom(client))
     dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} [Cog] -> load cog_random')
+    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.libiue}load cog_random{C.reset}')

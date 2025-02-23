@@ -4,10 +4,11 @@ import discord
 from discord import Message
 from discord.ext import commands
 
-from tools.set import Color as C
+from tools.color import Color as C
+from tools.set import ConfigInfo
 
-class info():
-    cid = int(1074749807798788206)
+cid = ConfigInfo.listener_id
+
 
 class CogListener(commands.Cog):
     def __init__(self, client: commands.Bot):
@@ -17,7 +18,7 @@ class CogListener(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message:Message):
         #get message
-        oput_channel = self.client.get_channel(info.cid)
+        oput_channel = self.client.get_channel(cid)
         if message.channel == oput_channel:
             return
 
@@ -49,15 +50,18 @@ class CogListener(commands.Cog):
 
 
             #send in msg channel
-            out = (f'**{now}** `{message.guild.name}` `{message.channel}`  **{message.author.name}**  :  {msg} ')
-            await oput_channel.send(out)
+            try:
+                out = (f'**{now}** `{message.guild.name}` `{message.channel}`  **{message.author.name}**  :  {msg} ')
+                await oput_channel.send(out)
+            except AttributeError:
+                pass
 
 
 
     @commands.Cog.listener()
     async def on_message_edit(self, before:Message, after:Message):
     #get message [edit]
-        oput_channel = self.client.get_channel(info.cid)
+        oput_channel = self.client.get_channel(cid)
         if after.channel == oput_channel:
             return
 
@@ -88,8 +92,11 @@ class CogListener(commands.Cog):
 
 
             #send in msg channel
-            out = (f'**{now} UTC+0** `{after.guild.name}` `{after.channel}`  **{after.author.name}** msg edit :  {msg} ')
-            await oput_channel.send(out)
+            try:
+                out = (f'**{now} UTC+0** `{after.guild.name}` `{after.channel}`  **{after.author.name}** msg edit :  {msg} ')
+                await oput_channel.send(out)
+            except AttributeError:
+                pass
             
 
 
@@ -98,7 +105,7 @@ class CogListener(commands.Cog):
     async def on_message_delete(self, message:Message):
     #get message[delete]
 
-        oput_channel = self.client.get_channel(info.cid)
+        oput_channel = self.client.get_channel(cid)
 
         if message.channel == oput_channel:
             return
@@ -129,11 +136,14 @@ class CogListener(commands.Cog):
             print(out+tmp)
             
             #send in msg channel
-            out = (f'**{now}** `{message.guild.name}` `{message.channel}`  **{message.author.name}**  msg delete:  {msg} ')
-            await oput_channel.send(out)
+            try:
+                out = (f'**{now}** `{message.guild.name}` `{message.channel}`  **{message.author.name}**  msg delete:  {msg} ')
+                await oput_channel.send(out)
+            except AttributeError:
+                pass
 
 
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogListener(client))
     dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} [Cog] -> load cog_listener')
+    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.libiue}load cog_listener{C.reset}')

@@ -7,6 +7,7 @@ from discord import Interaction
 from discord.ext import commands
 from typing import Optional
 
+from tools.color import Color as C
 
 class CogMention(commands.Cog):
     def __init__(self, client: commands.Bot):
@@ -44,9 +45,9 @@ class CogMention(commands.Cog):
         await interaction.response.send_message("compelepe!",ephemeral=True)
         msg = await channel.send(f'> ***Anonymous_user*** : {message}')
         dt = str(datetime.datetime.now())[:-7]
-        print(f'{dt} [Anonymous] -> (user : {interaction.user}, ID : {interaction.user.id}) | (message: {message} ,id: {msg.id})')
+        print(f'{dt} {C.red}[Anonymous] -> (user : {interaction.user}, ID : {interaction.user.id}) | (message: {message} ,id: {msg.id}{C.reset})')
 
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogMention(client))
     dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} [Cog] -> load cog_mention')
+    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.libiue}load cog_mention{C.reset}')
