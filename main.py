@@ -22,7 +22,9 @@ import yaml
 
 from discord.ext import commands
 
+from tools.func import BotInfo
 from tools.set import ConfigInfo
+
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 class CogRead:

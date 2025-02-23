@@ -1,0 +1,47 @@
+#You should write this Before You run main.py
+#By the way, This Allows to save multiple Bot data(if you need).
+---
+- !BotInfoExample
+  bot_name: example
+  command_prefix: $bot
+  owner: 111122223333444400
+  colour: 
+    - 42
+    - 210
+    - 89
+  token: 0Copy0And0Past0Your0Token0.AToken.PleaseDoNotShowsYourTokenToAnyOnes0000
+  listener_id: 4444333322221111000
+
+- !BotInfo
+  bot_name: #if no name, the main.py won't use this data
+  owner: #discord.User.id : int
+  command_prefix: #str
+  colour: #(r,g,b) -> int
+    - 255
+    - 255
+    - 255
+  token: #str
+  listener_id: #The channel ID.
+
+- !BotInfo
+  bot_name: 
+  owner: 
+  command_prefix: 
+  colour: 
+    - 255
+    - 255
+    - 255
+  token: 
+  listener_id: 
+
+- !BotInfo
+  bot_name: 
+  owner:
+  command_prefix:
+  colour:
+    - 255
+    - 255
+    - 255
+  token:
+  listener_id:
+...

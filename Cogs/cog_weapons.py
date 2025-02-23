@@ -13,7 +13,7 @@ class CogWeapons(commands.Cog):
     def __init__(self, client:commands.Bot):
         self.client = client
         try:
-            self.weapons = yaml_loader(path='./assets/choice.yaml')
+            self.weapons = yaml_loader(path='./assets/choice_zh.yaml')
         except YamlLoaderError as e:
             print(f"Error loading weapons: {e}")
             self.weapons = {}

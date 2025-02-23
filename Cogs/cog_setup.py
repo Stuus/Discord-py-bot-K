@@ -72,13 +72,15 @@ class CogSetups(commands.Cog):
             
     
     #re_start
+    #if there are multiple bot data in `bot_data.ymal`
+    #this command won't restart autocomplete
     @commands.command()
     async def re_start(self, ctx:commands.Context):
         if ctx.author.id == ConfigInfo.owner_id:
             dt = str(datetime.datetime.now())[:-7]
             await ctx.send(f"> {dt} Re_Start!")
             await self.client.close()
-            print('\t\tCLINET CLOSE')
+            print('\t\t\t- - - - - - CLINET CLOSE - - - - - -')
             os.execv(sys.executable, ['python'] + sys.argv)
         else:
             await ctx.send(f"No Permissions!")
