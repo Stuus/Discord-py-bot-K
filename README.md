@@ -5,7 +5,7 @@ I am practice Python using `discord.py`, and this Bot named ***Kuroshio***
 
 ## Core
 
-```
+```python
 
 class CogRead:
     cogs = []
