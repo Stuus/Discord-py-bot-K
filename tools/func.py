@@ -4,6 +4,8 @@ import os
 
 from typing import Dict, List, Optional
 
+from tools.color import Color as C
+
 #.yaml to class
 class BotInfo:
     def __init__(self, bot_name, owner, command_prefix, colour, token, listener_id):
@@ -82,7 +84,7 @@ def yaml_loader(path:str,* ,encode : str | None = "utf-8") -> Dict[str, List]:
         full_path = os.path.join(base_path, path)
 
         with open(full_path, 'r', encoding=encode) as file:
-            print(f"yaml_loader opened: '{full_path}'")
+            print(f"{C.green}yaml_loader opened: {C.yellow}'{full_path}'{C.reset}")
             data = yaml.safe_load(file)
             return data
     except FileNotFoundError:

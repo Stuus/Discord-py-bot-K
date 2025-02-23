@@ -9,7 +9,7 @@ from typing import Optional
 
 from tools.color import Color as C
 from tools.func import xfill
-
+from tools.set import ConfigInfo
 
 class CogRandom(commands.Cog):
     def __init__(self, client:commands.Bot):
@@ -48,7 +48,7 @@ class CogRandom(commands.Cog):
             else:
                 if reason == None:
                     reason = " "
-                embed = discord.Embed(title=f"{reason} 結果出爐!",color=discord.Colour.from_rgb(120, 80, 700))
+                embed = discord.Embed(title=f"{reason} 結果出爐!",color=ConfigInfo.colour)
                 ran = [random.randint(1,99) for _ in range(len(self.Tmp.option))]
 
                 for i in range(len(self.Tmp.option)):

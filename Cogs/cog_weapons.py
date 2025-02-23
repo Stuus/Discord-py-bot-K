@@ -8,13 +8,14 @@ from typing import Optional
 
 from tools.color import Color as C
 from tools.func import yaml_loader,YamlLoaderError
+from tools.set import ConfigInfo
 
 
 class CogWeapons(commands.Cog):
     def __init__(self, client:commands.Bot):
         self.client = client
         try:
-            self.weapons = yaml_loader(path='./assets/choice_zh.yaml')
+            self.weapons = yaml_loader(path='./assets/choice_zh.yaml') # TODO(Stuus) : Need a switch to change local Languages
         except YamlLoaderError as e:
             print(f"Error loading weapons: {e}")
             self.weapons = {}
@@ -27,7 +28,7 @@ class CogWeapons(commands.Cog):
         user_id = (f'<@{interaction.user.id}>')
 
         weapon = random.sample(self.weapons['ValorantWeapons'],2)
-        embed = discord.Embed(title=f"結果出爐!",color=discord.Colour.from_rgb(218, 55, 60))
+        embed = discord.Embed(title=f"結果出爐!",color=ConfigInfo.colour)
         embed.set_author(name=interaction.user,
                          icon_url=interaction.user.display_avatar
                          )

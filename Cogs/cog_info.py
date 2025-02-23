@@ -40,6 +40,7 @@ class CogInfo(commands.Cog):
     async def about(self, interaction:discord.Interaction):
         
         msg = (f"This is a discord bot Project By <@673156876095193088>.\n\
+                [View on Github](https://github.com/Stuus/Discord-py-bot-K)\n\
                 `discord.py {discord.__version__}`\n\
                 > ```diff\n\
                 > +    _   __  _    _   _____     ___    ____   _    _    _     ___     \n\

@@ -1,4 +1,4 @@
-from discord import Colour
+import discord
 
 from tools import func
 from tools.func import BotInfo
@@ -31,7 +31,7 @@ else:
 class ConfigInfo():    
     owner = bot_data.owner
     command_prefix = bot_data.command_prefix
-    colour = Colour.from_rgb(bot_data.colour[0],bot_data.colour[1],bot_data.colour[2])
+    colour = discord.Colour.from_rgb(bot_data.colour[0],bot_data.colour[1],bot_data.colour[2])
     token = bot_data.token
     listener_id = bot_data.listener_id
 
@@ -50,6 +50,6 @@ class AutoStatus():
         return self.list
 
 class PureInfo():
-    update_time = "2025/02/19"
-    lastest_function = "</lucky_weapon:1341707856998563880>"
+    update_time = "2025/02/24"
+    lastest_function = "N/A"
     python_verson = "3.11.4"

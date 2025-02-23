@@ -68,7 +68,7 @@ class CogSetups(commands.Cog):
         if ctx.author.id == ConfigInfo.owner:
             await ctx.send(f"au revoir")
             await self.client.close()
-            print(f'{C.purple}\t\t\t- - - - - - CLINET CLOSE - - - - - -{C.reset}')
+            print(f'{C.purple}\t\t\t- - - - - - - - - - - -CLINET CLOSE- - - - - - - - - - - -{C.reset}')
         else:
             await ctx.send(f"No Permissions!")
             
@@ -82,7 +82,7 @@ class CogSetups(commands.Cog):
             dt = str(datetime.datetime.now())[:-7]
             await ctx.send(f"> {dt} Re_Start!")
             await self.client.close()
-            print(f'{C.purple}\t\t\t- - - - - - CLINET CLOSE - - - - - -{C.reset}')
+            print(f'{C.purple}\t\t\t- - - - - - - - - - - -CLINET CLOSE- - - - - - - - - - - -{C.reset}')
             os.execv(sys.executable, ['python'] + sys.argv)
         else:
             await ctx.send(f"No Permissions!")
