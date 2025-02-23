@@ -3,6 +3,10 @@
 ---
 I am practice Python using `discord.py`, and this Bot named ***Kuroshio*** 
 
+![Static Badge](https://img.shields.io/badge/Beta-v--0.00.1b-green)
+
+
+
 ## Core
 
 ```python
