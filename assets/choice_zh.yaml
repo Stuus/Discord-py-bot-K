@@ -1,0 +1,37 @@
+# Traditional Chinese
+# This file is not for comster , You don't need to copy it.
+# If need,
+# Please make sure drop it in `.\assets\` folder.
+
+---
+
+ValorantWeapons:
+  - 制式手槍 Classic
+  - 短管 Shorty
+  - 狂弒 Frenzy
+  - 鬼魅 Ghost
+  - 神射 Sheriff
+  - 刺針 Stinger
+  - 惡靈 Spectre
+  - 重砲 Bucky
+  - 判官 Judge
+  - 鬥牛犬 Bulldog
+  - 捍衛者 Guardian
+  - 幻象 Phantom
+  - 暴徒 Vandal
+  - 警長 Marshal
+  - 逃犯 Outlaw
+  - 間諜 Operator
+  - 戰神 Ares
+  - 奧丁 Odin
+
+test:
+  - a
+  - b
+  - c
+  - d
+  - e
+  - f
+  - g
+
+...
