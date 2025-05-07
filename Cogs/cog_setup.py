@@ -71,11 +71,11 @@ class CogSetups(commands.Cog):
             print(f'{C.purple}\t\t\t- - - - - - - - - - - -CLINET CLOSE- - - - - - - - - - - -{C.reset}')
         else:
             await ctx.send(f"No Permissions!")
-            
-    
+
+
     #re_start
     #if there are multiple bot data in `bot_data.ymal`
-    #this command won't restart autocomplete
+    #this command will restart the first one
     @commands.command()
     async def re_start(self, ctx:commands.Context):
         if ctx.author.id == ConfigInfo.owner:

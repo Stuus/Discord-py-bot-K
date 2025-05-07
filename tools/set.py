@@ -1,29 +1,32 @@
 import discord
 
-from tools import func
-from tools.func import BotInfo
-from tools.color import Color
+from . import func
+from .func import BotInfo
+from .color import Color
 
 class LoginError(Exception):
     pass
 
 path = "./assets/bot_data.yaml"
 bot_objects = func.load_bot_data(path=path)
+current_data = 0
 
 if bot_objects == []:
     raise LoginError(f"{Color.red}No Any bot data found. Please check path : `./assets/bot_data.yaml`{Color.reset}")
 
 if len(bot_objects) == 1:
     bot_data:BotInfo = bot_objects[0]
-    print(bot_data)
 
-elif len(bot_objects) > 1:
-    print(f"{Color.blue}found multiple bot data(s)\nChoose one data to use:")
-    for i in range(len(bot_objects)):
-        bt = bot_objects[i]
-        print(f"{Color.purple}{bt.bot_name} : \t\t Enter [{i}]{Color.reset}")
-    c = int(input('number: '))
-    bot_data:BotInfo = bot_objects[c]
+elif len(bot_objects) > 1:    
+        print(f"{Color.blue}found multiple bot data(s)\nChoose one data to use:")
+        for i in range(len(bot_objects)):
+            bt = bot_objects[i]
+            print(f"{Color.purple}{bt.bot_name} : \t\t Enter [{i}]{Color.reset}")
+        c = 0
+        if current_data != 0:
+            c = int(input('number: '))
+            current_data = c
+        bot_data:BotInfo = bot_objects[c]
 
 else:
     raise LoginError(f"{bot_objects}")

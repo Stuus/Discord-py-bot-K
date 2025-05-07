@@ -5,6 +5,7 @@ from discord import app_commands
 from discord.ext import commands
 
 from tools.color import Color as C
+from tools.set import ConfigInfo
 from tools.set import PureInfo
 
 
@@ -25,7 +26,7 @@ class CogInfo(commands.Cog):
             await interaction.response.send_message(".",delete_after=0.01)
         @discord.ui.button(label="Next ->",style=discord.ButtonStyle.green)
         async def t2(self,interaction:discord.Interaction,Button:discord.ui.Button):
-            embed = discord.Embed(title=f" ",color=discord.Colour.from_rgb(218, 55, 60))
+            embed = discord.Embed(title=f" ",color=ConfigInfo.colour)
             embed.add_field(name=f"Update Time ",value=f'{PureInfo.update_time}')
             embed.add_field(name=f'Lastest Update',value=f'{PureInfo.lastest_function}')
             embed.add_field(name=f'Python Version',value=f'{PureInfo.python_verson}')
