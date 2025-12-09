@@ -7,7 +7,7 @@ from discord.ext import commands
 from typing import Optional
 
 from tools.color import Color as C
-from tools.func import yaml_loader,YamlLoaderError
+from tools.yaml_tool import yaml_loader,YamlLoaderError
 from tools.set import ConfigInfo
 
 
@@ -15,7 +15,7 @@ class CogWeapons(commands.Cog):
     def __init__(self, client:commands.Bot):
         self.client = client
         try:
-            self.weapons = yaml_loader(path='./assets/choice_zh.yaml') # TODO(Stuus) : Need a switch to change local Languages
+            self.weapons = yaml_loader(path='assets\\choice_zh.yaml') # TODO(Stuus) : Need a switch to change local Languages
         except YamlLoaderError as e:
             print(f"Error loading weapons: {e}")
             self.weapons = {}

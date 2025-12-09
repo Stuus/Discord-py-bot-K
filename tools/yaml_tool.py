@@ -7,18 +7,17 @@ from .color import Color as C
 
 #.yaml to class
 class BotInfo:
-    def __init__(self, bot_name, owner, command_prefix, colour, token, listener_id):
+    def __init__(self, bot_name, owner, command_prefix, colour, listener_id):
         self.bot_name = bot_name
         self.owner = owner
         self.command_prefix = command_prefix
         self.colour = colour
-        self.token = token
         self.listener_id = listener_id
 
     def __repr__(self):
         return (f"BotInfo(bot_name='{self.bot_name}', owner={self.owner}, "
                 f"command_prefix='{self.command_prefix}', colour={self.colour}, "
-                f"token='{self.token}', listener_id={self.listener_id})")
+                f"listener_id={self.listener_id})")
 
 def bot_info_constructor(loader, node):
     values = loader.construct_mapping(node)
@@ -36,7 +35,7 @@ def load_bot_data(path,*,pass_none : bool | None = True):
 
         full_path = os.path.join(base_path, path)
 
-        with open(full_path, 'r') as file:
+        with open(full_path,mode='r',encoding="utf-8") as file:
             data = yaml.safe_load(file)
 
         bot_instances = []
@@ -113,7 +112,7 @@ def update_bot_info(path:str, bot_name, new_data:dict):
     updated = False
     for item in data:
         if isinstance(item, dict) and item.get('!BotInfo', {}).get('bot_name') == bot_name:
-            item['!BotInfo'].update(new_data)
+            item['!BotInfo'].update(new_data)# TODO(stuus) : update dict
             updated = True
             break
 

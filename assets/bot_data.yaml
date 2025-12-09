@@ -9,18 +9,22 @@
     - 42
     - 210
     - 89
-  token: 0Copy0And0Past0Your0Token0.AToken.PleaseDoNotShowsYourTokenToAnyOnes0000
   listener_id: 4444333322221111000
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+  #  .env                                                                                 #
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+  # example=0Copy0And0Past0Your0Token0.AToken.PleaseDoNotShowsYourTokenToAnyOnes0000      #
+  #                                                                                       #
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 - !BotInfo
-  bot_name: #if no name, the main.py won't use this data
+  bot_name: #pls make sure .env file have the same name to get TOKEN, if no name, the main.py won't use this data
   owner: #discord.User.id : int
   command_prefix: #str
   colour: #(r,g,b) -> int
     - 255
     - 255
     - 255
-  token: #str
   listener_id: #The channel ID.
 
 - !BotInfo
@@ -31,17 +35,25 @@
     - 255
     - 255
     - 255
-  token: 
   listener_id: 
 
 - !BotInfo
-  bot_name: 
-  owner:
-  command_prefix:
+  bot_name: K
+  owner: 673156876095193088
+  command_prefix: ">K"
+  colour: 
+    - 20
+    - 215
+    - 215
+  listener_id: 
+
+- !BotInfo
+  bot_name: ★☆★☆★
+  owner: 673156876095193088
+  command_prefix: "__bot "
   colour:
-    - 255
-    - 255
-    - 255
-  token:
+    - 20
+    - 20
+    - 125
   listener_id:
 ...

@@ -13,6 +13,7 @@
 import asyncio
 import datetime
 import discord
+import dotenv
 import os
 import random
 import sys
@@ -20,9 +21,13 @@ import typing
 import yaml
 
 from discord.ext import commands
+from dotenv import load_dotenv
 
 from tools.color import Color as C
-from tools.set import ConfigInfo
+from tools.set import ConfigInfo, PureInfo
+
+
+
 
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -54,6 +59,7 @@ class Client(commands.Bot):
 
     async def on_ready(self):
         dt = str(datetime.datetime.now())[:-7]
+        print(f'                    {C.libiue}Bot Version: {PureInfo.self_vsrsion}{C.reset}')
         print(f'{dt}{C.green} Logged with :  {self.user.name}{C.reset}')
         synced = await self.tree.sync()
         command_names = [command.name for command in synced]
@@ -68,4 +74,14 @@ client = Client()
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
-client.run(ConfigInfo.token)
+
+try:
+    load_dotenv()
+    env_token = os.getenv(f"{ConfigInfo.bot_name}_TOKEN")
+    client.run(env_token)
+except Exception as e:
+    print(f"{C.red}Error loading .env file: {e}{C.reset}")
+finally:
+    dt = str(datetime.datetime.now())[:-7]
+    print(f'{dt} {C.yellow}Bot Shutdown.{C.reset}')
+    sys.exit(0)
