@@ -9,10 +9,8 @@ from discord import app_commands
 from discord.app_commands import Choice
 from discord.ext import commands
 from discord.ext import voice_recv
-from typing import Optional
 
 from tools.color import Color as C
-from tools.set import ConfigInfo
 
 
 class StatsSink(voice_recv.AudioSink):
@@ -85,7 +83,7 @@ class CogVoice(commands.Cog):
             self,
             interaction: discord.Interaction,
             file_types: Choice[int] = 1,
-            time: discord.app_commands.Range[int, 1, 600] = 10
+            time: discord.app_commands.Range[int, 1, 600] = 10,
     ):
 
         if not interaction.user.voice.channel:
@@ -118,7 +116,7 @@ class CogVoice(commands.Cog):
         ffmpeg_path = os.path.join("tools", "ffmpeg.exe")
         # Check if ffmpeg exists
         if not os.path.exists(ffmpeg_path):
-             await interaction.channel.send(f"Error: FFmpeg not found at {ffmpeg_path}")
+             await interaction.response.send_message(f"Error: `FFmpeg not found at {ffmpeg_path}`")
              return
 
 
