@@ -18,8 +18,8 @@ class CogSetups(commands.Cog):
             try:
                 await self.client.load_extension(f"Cogs.{cog.lower()}")
                 await ctx.send(f"Successfully loaded **{cog}.py**") 
-            except:
-                await ctx.send(f"Error!")
+            except Exception as e:
+                await ctx.send(f"Error :` {e}`")
         else:
             await ctx.send(f"No Permissions!")
     #RELOAD
@@ -29,8 +29,8 @@ class CogSetups(commands.Cog):
             try:
                 await self.client.reload_extension(f"Cogs.{cog.lower()}")
                 await ctx.send(f"Successfully reloaded **{cog}.py**")
-            except:
-                await ctx.send(f"Error!")
+            except Exception as e:
+                await ctx.send(f"Error :` {e}`")
         else:
             await ctx.send(f"No Permissions!")
 
@@ -41,8 +41,8 @@ class CogSetups(commands.Cog):
             try:
                 await self.client.unload_extension(f"Cogs.{cog.lower()}")
                 await ctx.send(f"Successfully unloaded **{cog}.py**")
-            except:
-                await ctx.send(f"Error!")
+            except Exception as e:
+                await ctx.send(f"Error :` {e}`")
         else:
             await ctx.send(f"No Permissions!")
 
@@ -57,8 +57,8 @@ class CogSetups(commands.Cog):
                         load = str(f'ext_{extension}.ext_loader')
                         await self.client.load_extension(load)
                         await ctx.send(f"Extension :{extension}.ext_loader")
-            except:
-                await ctx.send(f"Error!")
+            except Exception as e:
+                await ctx.send(f"Error :` {e}`")
         else:
             await ctx.send(f"No Permissions!")
 
