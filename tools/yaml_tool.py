@@ -7,15 +7,16 @@ from .color import Color as C
 
 #.yaml to class
 class BotInfo:
-    def __init__(self, bot_name, owner, command_prefix, colour, listener_id):
+    def __init__(self, bot_name, data_id, owner, command_prefix, colour, listener_id):
         self.bot_name = bot_name
+        self.data_id = data_id
         self.owner = owner
         self.command_prefix = command_prefix
         self.colour = colour
         self.listener_id = listener_id
 
     def __repr__(self):
-        return (f"BotInfo(bot_name='{self.bot_name}', owner={self.owner}, "
+        return (f"BotInfo(bot_name='{self.bot_name}', data_id='{self.data_id}', owner={self.owner}, "
                 f"command_prefix='{self.command_prefix}', colour={self.colour}, "
                 f"listener_id={self.listener_id})")
 

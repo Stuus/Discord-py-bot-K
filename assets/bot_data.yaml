@@ -3,6 +3,7 @@
 ---
 - !BotInfoExample
   bot_name: example
+  data_id: 9999
   command_prefix: $bot
   owner: 111122223333444400
   colour: 
@@ -19,6 +20,7 @@
 
 - !BotInfo
   bot_name: #pls make sure .env file have the same name to get TOKEN, if no name, the main.py won't use this data
+  data_id: #int : to identify bot data
   owner: #discord.User.id : int
   command_prefix: #str
   colour: #(r,g,b) -> int
@@ -28,17 +30,8 @@
   listener_id: #The channel ID.
 
 - !BotInfo
-  bot_name: 
-  owner: 
-  command_prefix: 
-  colour: 
-    - 255
-    - 255
-    - 255
-  listener_id: 
-
-- !BotInfo
   bot_name: K
+  data_id: 0
   owner: 673156876095193088
   command_prefix: ">K"
   colour: 
@@ -49,6 +42,7 @@
 
 - !BotInfo
   bot_name: ★☆★☆★
+  data_id: 1
   owner: 673156876095193088
   command_prefix: "__bot "
   colour:
@@ -56,4 +50,15 @@
     - 20
     - 125
   listener_id:
+
+- !BotInfo
+  bot_name: 
+  data_id: 
+  owner: 
+  command_prefix:
+  colour: 
+    - 255
+    - 255
+    - 255
+  listener_id: 
 ...
