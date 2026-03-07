@@ -28,12 +28,15 @@ def load_bot_config(*, current_data_id: int = -1) -> BotInfo:
 
             if current_data_id == -1:
                 try:
-                    c = inputimeout.inputimeout(prompt=f"{Color.yellow}Enetr number(if no input will start up [0]): {Color.reset}", timeout=15)
-                except inputimeout.TimeoutOccurred:
+                    c = inputimeout.inputimeout(prompt=f"{Color.yellow}Eneter number(if no input will start up [0]): {Color.reset}", timeout=15)
+                except (inputimeout.TimeoutOccurred, ValueError):
                     c = 0
-                 
-                current_data_id = c
-                return bot_objects[int(current_data_id)]
+
+                if 0 <= c <= len(bot_objects):
+                    current_data_id = c
+                    return bot_objects[int(current_data_id)]
+                else:
+                    raise LoginError(f"{Color.red}Invalid number. Please try again.{Color.reset}")
 
             else:
                 return bot_objects[current_data_id]

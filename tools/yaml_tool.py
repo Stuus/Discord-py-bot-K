@@ -127,4 +127,4 @@ def update_bot_info(path:str, bot_name, new_data:dict):
             yaml.dump_all(data, file, explicit_start=True)
         print(f"updated '{bot_name}' successfully.")
     except IOError as e:
-        print(f"Error：{e}")
+        print(f"Error:{e}")
