@@ -1,0 +1,6 @@
+discord.py
+python-dotenv
+PyYAML
+Pillow
+inputimeout
+discord-ext-voice-recv
