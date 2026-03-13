@@ -54,13 +54,17 @@ class CogRead:
 
 class Client(commands.Bot):
     def __init__(self):
-        super().__init__(command_prefix=ConfigInfo.command_prefix, intents=discord.Intents().all())
+        super().__init__(
+            command_prefix=ConfigInfo.command_prefix,
+            intents=discord.Intents().all(),
+            shard_count=3,
+            )
         self.cogslist = CogRead.cogs
 
     async def on_ready(self):
         dt = str(datetime.datetime.now())[:-7]
         print(f'                    {C.libiue}Bot Version: {PureInfo.self_vsrsion}{C.reset}')
-        print(f'{dt}{C.green} Logged with :  {self.user.name}{C.reset}')
+        print(f'{dt}{C.green} Logged with :  {self.user.name}{C.reset} Shard : {self.shard_id} of {self.shard_count}{C.reset}')
         synced = await self.tree.sync()
         command_names = [command.name for command in synced]
         print(f'{C.blue}                    Application commands Synced  {str(len(synced))}   Commands')
@@ -78,7 +82,12 @@ if __name__ == "__main__":
     try:
         load_dotenv()
         env_token = os.getenv(f"{ConfigInfo.bot_name}_TOKEN")
-        client.run(env_token)
+        if os.getenv(f"SHARD_ID") != None:
+            env_shard_id = int(os.getenv(f"SHARD_ID"))
+        else:
+            env_shard_id = 0
+        client.shard_id = env_shard_id
+        client.run(token= env_token)
     except Exception as e:
         print(f"{C.red}Error loading .env file: {e}{C.reset}")
     finally:
