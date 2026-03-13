@@ -74,14 +74,14 @@ client = Client()
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
-
-try:
-    load_dotenv()
-    env_token = os.getenv(f"{ConfigInfo.bot_name}_TOKEN")
-    client.run(env_token)
-except Exception as e:
-    print(f"{C.red}Error loading .env file: {e}{C.reset}")
-finally:
-    dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} {C.yellow}Bot Shutdown.{C.reset}')
-    sys.exit(0)
+if __name__ == "__main__":
+    try:
+        load_dotenv()
+        env_token = os.getenv(f"{ConfigInfo.bot_name}_TOKEN")
+        client.run(env_token)
+    except Exception as e:
+        print(f"{C.red}Error loading .env file: {e}{C.reset}")
+    finally:
+        dt = str(datetime.datetime.now())[:-7]
+        print(f'{dt} {C.yellow}Bot Shutdown.{C.reset}')
+        sys.exit(0)
