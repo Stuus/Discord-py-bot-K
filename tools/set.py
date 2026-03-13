@@ -28,7 +28,7 @@ def load_bot_config(*, current_data_id: int = -1) -> BotInfo:
 
             if current_data_id == -1:
                 try:
-                    c = inputimeout.inputimeout(prompt=f"{Color.yellow}Eneter number(if no input will start up [0]): {Color.reset}", timeout=15)
+                    c = int(inputimeout.inputimeout(prompt=f"{Color.yellow}Eneter number(if no input will start up [0]): {Color.reset}", timeout=15))
                 except (inputimeout.TimeoutOccurred, ValueError):
                     c = 0
 
