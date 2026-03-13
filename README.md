@@ -1,11 +1,9 @@
 # Discord Python Bot [K]
 
 ---
-I am practice Python using `discord.py`, and this Bot named ***Kuroshio*** 
+I am practice Python using `discord.py`, and this Bot named ***Kuroshio***
 
 ![Static Badge](https://img.shields.io/badge/BK-v--0.00.1b-green)
-
-
 
 ## Core
 
@@ -44,4 +42,5 @@ class Client(commands.Bot):
 client = Client()
 client.run(token)
 ```
+
 ---
