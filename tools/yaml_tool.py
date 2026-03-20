@@ -30,7 +30,8 @@ def load_bot_data(path,*,pass_none : bool | None = True):
 
     try:
         if hasattr(sys, '_MEIPASS'):  # Check if running in PyInstaller
-            base_path = sys._MEIPASS
+            # Ensure it reads from the folder where the .exe is, not the temp folder
+            base_path = os.path.dirname(sys.executable)
         else:
             base_path = os.path.abspath(".")
 
@@ -77,7 +78,8 @@ def yaml_loader(path : str, * , mode : str | None = "r", encode : str | None = "
     """
     try:
         if hasattr(sys, '_MEIPASS'):  # Check if running in PyInstaller
-            base_path = sys._MEIPASS
+            # Ensure it reads from the folder where the .exe is, not the temp folder
+            base_path = os.path.dirname(sys.executable)
         else:
             base_path = os.path.abspath(".")
 
