@@ -30,10 +30,10 @@
   listener_id: #The channel ID.
 
 - !BotInfo
-  bot_name: K
-  data_id: 0
-  owner: 673156876095193088
-  command_prefix: ">K"
+  bot_name: 
+  data_id:
+  owner: 
+  command_prefix: 0
   colour: 
     - 20
     - 215
@@ -41,10 +41,10 @@
   listener_id: 
 
 - !BotInfo
-  bot_name: ★☆★☆★
+  bot_name:
   data_id: 1
-  owner: 673156876095193088
-  command_prefix: "__bot "
+  owner: 
+  command_prefix:
   colour:
     - 20
     - 20
