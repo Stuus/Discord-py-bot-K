@@ -52,12 +52,12 @@ class CogRead:
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
-class Client(commands.Bot):
-    def __init__(self):
+class Client(commands.AutoShardedBot):
+    def __init__(self, **kwargs):
         super().__init__(
             command_prefix=ConfigInfo.command_prefix,
             intents=discord.Intents().all(),
-            shard_count=3,
+            **kwargs
             )
         self.cogslist = CogRead.cogs
 
@@ -65,7 +65,10 @@ class Client(commands.Bot):
         dt = str(datetime.datetime.now())[:-7]
         print(f'                    {C.libiue}Bot Version: {PureInfo.self_vsrsion}{C.reset}')
         # TODO: 檢查 github 上的最新發布，如果有新版本則 DM bot_owner
-        print(f'{dt}{C.green} Logged with :  {self.user.name}{C.reset} Shard : {self.shard_id} of {self.shard_count}{C.reset}')
+        
+        # get shard info of this process
+        shards_info = list(self.shards.keys()) if self.shards else "Auto"
+        print(f'{dt}{C.green} Logged with :  {self.user.name}{C.reset} Shards : {shards_info} (Total: {self.shard_count}){C.reset}')
         synced = await self.tree.sync()
         command_names = [command.name for command in synced]
         print(f'{C.blue}                    Application commands Synced  {str(len(synced))}   Commands')
@@ -75,7 +78,6 @@ class Client(commands.Bot):
         for ext in self.cogslist:
             await self.load_extension(ext)
 
-client = Client()
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
@@ -83,11 +85,17 @@ if __name__ == "__main__":
     try:
         load_dotenv()
         env_token = os.getenv(f"{ConfigInfo.bot_name}_TOKEN")
-        if os.getenv(f"SHARD_ID") != None:
-            env_shard_id = int(os.getenv(f"SHARD_ID"))
-        else:
-            env_shard_id = 0
-        client.shard_id = env_shard_id
+        
+        shard_kwargs = {}
+        # If .env file has SHARD_ID, it will enable manual sharding and lock a single Shard
+        if os.getenv("SHARD_ID") is not None:
+            shard_kwargs['shard_ids'] = [int(os.getenv("SHARD_ID"))]
+            # Read the total number of shards (default to 3 to prevent errors)
+            shard_kwargs['shard_count'] = int(os.getenv("SHARD_COUNT", "3"))
+
+        # if kwargs is empty, AutoShardedBot will automatically start and take over all shards
+        client = Client(**shard_kwargs)
+
         client.run(token= env_token)
     except Exception as e:
         print(f"{C.red}Error loading .env file: {e}{C.reset}")
