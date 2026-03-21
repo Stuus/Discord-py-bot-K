@@ -87,6 +87,7 @@ class CogSetups(commands.Cog):
         else:
             await ctx.send(f"No Permissions!")
 
+    # TODO: 新增 set_data(self, ctx) 以調整 assets/bot_data.yaml 檔案
 
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogSetups(client))

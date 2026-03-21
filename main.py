@@ -64,6 +64,7 @@ class Client(commands.Bot):
     async def on_ready(self):
         dt = str(datetime.datetime.now())[:-7]
         print(f'                    {C.libiue}Bot Version: {PureInfo.self_vsrsion}{C.reset}')
+        # TODO: 檢查 github 上的最新發布，如果有新版本則 DM bot_owner
         print(f'{dt}{C.green} Logged with :  {self.user.name}{C.reset} Shard : {self.shard_id} of {self.shard_count}{C.reset}')
         synced = await self.tree.sync()
         command_names = [command.name for command in synced]

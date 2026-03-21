@@ -10,6 +10,7 @@ class BotInfo:
     def __init__(self, bot_name, data_id, owner, command_prefix, colour, listener_id):
         self.bot_name = bot_name
         self.data_id = data_id
+        # TODO: 如果 Botinfo.owner 為空，使用 bot.owner.id 或 bot.owner.id 傳參
         self.owner = owner
         self.command_prefix = command_prefix
         self.colour = colour
