@@ -3,7 +3,7 @@
 ---
 I am practice Python using `discord.py`, and this Bot named ***Kuroshio***
 
-![Static Badge](https://img.shields.io/badge/BK-v--0.00.1b-green)
+![Static Badge](https://img.shields.io/badge/BK-v0.0.1--a-green)
 
 ## Core
 
