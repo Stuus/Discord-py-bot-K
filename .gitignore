@@ -1,4 +1,26 @@
-*__pycache__
-test*
+# -------- Python --------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# -------- Environments --------
 .env
+venv/
+.venv/
+env/
+
+# -------- PyInstaller / Build --------
+build/
+dist/
 Release/
+*.spec
+!main.spec
+
+# -------- Project Specific --------
+test*
+
+# -------- OS / Editors --------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

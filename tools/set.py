@@ -58,6 +58,8 @@ class ConfigInfo(BotInfo):
 class AutoStatus():
     def __init__(self) -> None:
         self.list =[
+            'LMAO',
+            '67',
             'hello, world',
             'try /about',
             'I love slient...',
@@ -70,6 +72,6 @@ class AutoStatus():
 
 class PureInfo():
     self_vsrsion = "0.0.1.a"
-    update_time = "2025/02/24"
-    lastest_function = "N/A"
+    update_time = "2025/03/21"
+    lastest_function = "/record"
     python_verson = sys.version
