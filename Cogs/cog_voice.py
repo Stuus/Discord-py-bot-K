@@ -3,6 +3,7 @@ import datetime
 import discord
 import os
 import subprocess
+import sys
 import time
 
 from discord import app_commands
@@ -95,28 +96,35 @@ class CogVoice(commands.Cog):
 
         await interaction.response.send_message(f"Ready to record @ {target_channel} for {time} second(s).")
 
+        needs_reconnect = True
         if vc is not None:
             # Already connected
-            if vc.channel.id == target_channel.id:
-                # In the same channel -> stop current recording
-                #vc.stop_listening()
-                await vc.disconnect()
+            if vc.channel.id == target_channel.id and isinstance(vc, voice_recv.VoiceRecvClient):
+                # In the same channel and already using VoiceRecvClient -> reuse connection
+                needs_reconnect = False
             else:
-                # Other channel -> disconnect first
+                # Other channel or wrong client type -> disconnect first
                 await vc.disconnect()
+                await asyncio.sleep(1.5)  # Wait for discord to process disconnect
+
+        if needs_reconnect:
+            # create a new connection
+            try:
+                vc = await target_channel.connect(cls=voice_recv.VoiceRecvClient)
+            except discord.ClientException:
+                # Already connected to a voice channel or session lingering
+                await asyncio.sleep(1.5)
+                vc = await target_channel.connect(cls=voice_recv.VoiceRecvClient)
         
-        # create a new connection
-        try:
-            vc = await target_channel.connect(cls=voice_recv.VoiceRecvClient)
-        except discord.ClientException:
-            # Already connected to a voice channel
-            await asyncio.sleep(0.5)
-            vc = await target_channel.connect(cls=voice_recv.VoiceRecvClient)
+        if hasattr(sys, '_MEIPASS'):
+            base_path = os.path.dirname(sys.executable)
+        else:
+            base_path = os.path.abspath(".")
+        ffmpeg_path = os.path.join(base_path, "tools", "ffmpeg.exe")
         
-        ffmpeg_path = os.path.join("tools", "ffmpeg.exe")
         # Check if ffmpeg exists
         if not os.path.exists(ffmpeg_path):
-             await interaction.response.send_message(f"Error: `FFmpeg not found at {ffmpeg_path}`")
+             await interaction.followup.send(f"Error: `FFmpeg not found at {ffmpeg_path}`")
              return
 
 
