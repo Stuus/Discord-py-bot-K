@@ -98,7 +98,7 @@ if __name__ == "__main__":
 
         client.run(token= env_token)
     except Exception as e:
-        print(f"{C.red}Error loading .env file: {e}{C.reset}")
+        print(f"{C.red}Error while running bot process: {e}{C.reset}")
     finally:
         dt = str(datetime.datetime.now())[:-7]
         print(f'{dt} {C.yellow}Bot Shutdown.{C.reset}')
