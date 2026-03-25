@@ -39,43 +39,37 @@ class CogInfo(commands.Cog):
         description="about this bot"
     )
     async def about(self, interaction:discord.Interaction):
-        def __init__():
-            self.page_one = CogInfo.page_one
-        global message
-        await interaction.response.send_message("==",delete_after=0.1)
-        message = await interaction.channel.send(content=self.page_one,view=CogInfo.PageOne())
+        await interaction.response.send_message(content=self.page_one, view=CogInfo.PageOne())
 
         #button_about
     class PageOne(discord.ui.View):
         def __init__(self):
             super().__init__(timeout=120)
-        global message
+
         @discord.ui.button(label="close x",style=discord.ButtonStyle.red)
-        async def t1(self,interaction:discord.Interaction,Button:discord.Button):
-            await message.edit(content='==',delete_after=0.01)
-            await interaction.response.defer()
+        async def t1(self,interaction:discord.Interaction,Button:discord.ui.Button):
+            await interaction.message.delete()
+
         @discord.ui.button(label="Next ->",style=discord.ButtonStyle.green)
         async def t2(self,interaction:discord.Interaction,Button:discord.ui.Button):
             embed = discord.Embed(title=f" ",color=ConfigInfo.colour)
             embed.add_field(name=f"Update Time ",value=f'{PureInfo.update_time}')
             embed.add_field(name=f'Lastest Update',value=f'{PureInfo.lastest_function}')
             embed.add_field(name=f'Python Version',value=f'{PureInfo.python_verson}')
-            await message.edit(content="Page 2",embed=embed,view=CogInfo.PageTwo())
-            await interaction.response.defer()
+            await interaction.response.edit_message(content="Page 2", embed=embed, view=CogInfo.PageTwo())
         
     class PageTwo(discord.ui.View):
         def __init__(self):
             super().__init__(timeout=120)
             self.page_one = CogInfo.page_one
-            global message
+
         @discord.ui.button(label="close x",style=discord.ButtonStyle.red)
-        async def t1(self,interaction:discord.Interaction,Button:discord.Button):
-            await message.edit(content='==',delete_after=0.01)
-            await interaction.response.defer()
+        async def t1(self,interaction:discord.Interaction,Button:discord.ui.Button):
+            await interaction.message.delete()
+
         @discord.ui.button(label="Back <-",style=discord.ButtonStyle.green)
         async def t2(self,interaction:discord.Interaction,Button:discord.ui.Button):
-            await message.edit(content=self.page_one,view=CogInfo.PageOne(),embed=None)
-            await interaction.response.defer()
+            await interaction.response.edit_message(content=self.page_one, view=CogInfo.PageOne(), embed=None)
 
 
     #/get
