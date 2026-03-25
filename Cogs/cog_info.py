@@ -79,12 +79,19 @@ class CogInfo(commands.Cog):
 
 
     #/get
+    #This command using getattr, malicious user could get sensitive information
+    """
     @app_commands.command(
         name= "get",
         description= "show sothing you want(#Just play it, if you are developers)"
     )
     @app_commands.describe(object_you_want = "discord.Interaction")
     async def get(self,interaction: discord.Interaction,object_you_want : str):
+        warnings.warn(
+            "This command using getattr, malicious user could get sensitive information",
+            DeprecationWarning,
+            stacklevel=2
+        )
         try:
             path = interaction
             for i in object_you_want.split("."):
@@ -103,7 +110,7 @@ class CogInfo(commands.Cog):
 
         except AttributeError:
             await interaction.response.send_message(f'```py\nArithmeticError : discord.Interaction object has no attribute \'{object_you_want}\'\n```')
-
+    """
 
 
 

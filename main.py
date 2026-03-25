@@ -17,6 +17,7 @@ import dotenv
 import os
 import random
 import sys
+import traceback
 import typing
 import yaml
 
@@ -55,7 +56,6 @@ class CogRead:
 class Client(commands.AutoShardedBot):
     def __init__(self, **kwargs):
         super().__init__(
-            command_prefix=ConfigInfo.command_prefix,
             intents=discord.Intents().all(),
             **kwargs
             )
@@ -94,11 +94,12 @@ if __name__ == "__main__":
             shard_kwargs['shard_count'] = int(os.getenv("SHARD_COUNT", "3"))
 
         # if kwargs is empty, AutoShardedBot will automatically start and take over all shards
-        client = Client(**shard_kwargs)
+        client = Client(command_prefix=ConfigInfo.command_prefix,**shard_kwargs)
 
         client.run(token= env_token)
     except Exception as e:
         print(f"{C.red}Error while running bot process: {e}{C.reset}")
+        traceback.print_exc()
     finally:
         dt = str(datetime.datetime.now())[:-7]
         print(f'{dt} {C.yellow}Bot Shutdown.{C.reset}')
