@@ -44,15 +44,42 @@ def load_bot_config(*, current_data_id: int = -1) -> BotInfo:
     else:
         raise LoginError(f"{bot_objects}")
 
-bot_data = load_bot_config()
+_bot_data = None
 
-class ConfigInfo(BotInfo):
-    bot_name = bot_data.bot_name
-    data_id = bot_data.data_id
-    owner = bot_data.owner
-    command_prefix = bot_data.command_prefix
-    colour = discord.Colour.from_rgb(bot_data.colour[0],bot_data.colour[1],bot_data.colour[2])
-    listener_id = bot_data.listener_id
+def get_config() -> BotInfo:
+    global _bot_data
+    if _bot_data is None:
+        _bot_data = load_bot_config()
+    return _bot_data
+
+class ConfigMeta(type):
+    @property
+    def bot_name(cls):
+        return get_config().bot_name
+    
+    @property
+    def data_id(cls):
+        return get_config().data_id
+    
+    @property
+    def owner(cls):
+        return get_config().owner
+    
+    @property
+    def command_prefix(cls):
+        return get_config().command_prefix
+    
+    @property
+    def colour(cls):
+        bd = get_config()
+        return discord.Colour.from_rgb(bd.colour[0], bd.colour[1], bd.colour[2])
+    
+    @property
+    def listener_id(cls):
+        return get_config().listener_id
+
+class ConfigInfo(BotInfo, metaclass=ConfigMeta):
+    pass
 
 
 class AutoStatus():
