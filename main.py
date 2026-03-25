@@ -34,22 +34,25 @@ from tools.set import ConfigInfo, PureInfo
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 class CogRead:
-    cogs = []
-    try:
-        # If the file package to `.exe` , than sys._MEIPASS
-        base_path = sys._MEIPASS
-    except AttributeError:
-        base_path = os.path.abspath(".")
+    @classmethod
+    def get_cogs(cls):
+        cogs = []
+        try:
+            # If the file package to `.exe` , than sys._MEIPASS
+            base_path = sys._MEIPASS
+        except AttributeError:
+            base_path = os.path.abspath(".")
 
-    cogs_path = os.path.join(base_path, "Cogs")
+        cogs_path = os.path.join(base_path, "Cogs")
 
-    if os.path.exists(cogs_path):
-        for Filename in os.listdir(cogs_path):
-            if Filename.startswith('cog'):
-                add = str(f'Cogs.{Filename[:-3]}')
-                cogs.append(add)
-    else:
-        print(f"{C.red}Error: Cogs folder not found at {cogs_path}{C.reset}")
+        if os.path.exists(cogs_path):
+            for Filename in os.listdir(cogs_path):
+                if Filename.startswith('cog'):
+                    add = str(f'Cogs.{Filename[:-3]}')
+                    cogs.append(add)
+        else:
+            print(f"{C.red}Error: Cogs folder not found at {cogs_path}{C.reset}")
+        return cogs
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
@@ -59,7 +62,7 @@ class Client(commands.AutoShardedBot):
             intents=discord.Intents().all(),
             **kwargs
             )
-        self.cogslist = CogRead.cogs
+        self.cogslist = CogRead.get_cogs()
 
     async def on_ready(self):
         dt = str(datetime.datetime.now())[:-7]

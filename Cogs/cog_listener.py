@@ -7,9 +7,6 @@ from discord.ext import commands
 from tools.color import Color as C
 from tools.set import ConfigInfo
 
-cid = ConfigInfo.listener_id
-
-
 class CogListener(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
@@ -18,7 +15,7 @@ class CogListener(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message:Message):
         #get message
-        oput_channel = self.client.get_channel(cid)
+        oput_channel = self.client.get_channel(ConfigInfo.listener_id)
         if message.channel == oput_channel:
             return
 
@@ -61,7 +58,7 @@ class CogListener(commands.Cog):
     @commands.Cog.listener()
     async def on_message_edit(self, before:Message, after:Message):
     #get message [edit]
-        oput_channel = self.client.get_channel(cid)
+        oput_channel = self.client.get_channel(ConfigInfo.listener_id)
         if after.channel == oput_channel:
             return
 
@@ -105,7 +102,7 @@ class CogListener(commands.Cog):
     async def on_message_delete(self, message:Message):
     #get message[delete]
 
-        oput_channel = self.client.get_channel(cid)
+        oput_channel = self.client.get_channel(ConfigInfo.listener_id)
 
         if message.channel == oput_channel:
             return
