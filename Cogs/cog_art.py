@@ -66,3 +66,6 @@ def image_to_ascii(image_path, output_width=75)-> str:
     for i in range(0, len(ascii_str), output_width):
         ascii_img += ascii_str[i:i + output_width] + '\n'
     return ascii_img
+
+if __name__ == "__main__":
+    print(image_to_ascii(image_path='assets/tmp/img.png',output_width=100))
