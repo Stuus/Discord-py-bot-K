@@ -11,133 +11,79 @@ class CogListener(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
 
+    def _get_msg_content(self, message: Message) -> str:
+        if len(message.embeds) >= 1:
+            return message.embeds[0].title or "No Title"
+        elif len(message.attachments) >= 1:
+            return '\n'.join(att.url for att in message.attachments)
+        return message.content or str(message)
 
-    @commands.Cog.listener()
-    async def on_message(self, message:Message):
-        #get message
+    async def log_message(self, message: Message, action_prefix: str, color_code: str, discord_log_fmt: str, before_message: Message = None):
+        guild_name = message.guild.name if message.guild else f"DM-{message.author.name}"
+            
         oput_channel = self.client.get_channel(ConfigInfo.listener_id)
         if message.channel == oput_channel:
             return
 
+        now = str(datetime.datetime.now())[:-7]
+        
+        msg = self._get_msg_content(message)
+        if len(message.embeds) >= 1:
+            tmp = f'  {color_code}{action_prefix}embed : [{msg}]{C.reset}'
+        elif len(message.attachments) >= 1:
+            tmp = f'  {color_code}{action_prefix}URL : \n{msg}\n{C.reset}'
         else:
-            now = str(datetime.datetime.now())[:-7]
-            if len(message.embeds) >= 1:
-            #get embrd
-                tmp = (f'  {C.libiue}embed : [{message.embeds[0].title}]{C.reset}')
-                msg = (f'{message.embeds[0].title}')
+            tmp = f'  {color_code}{action_prefix}say : {msg}{C.reset}'
 
-            elif len(message.attachments) >= 1:
-            #get picture[URL]
-                urls = ('')
-                for i in range(len(message.attachments)):
-                    urls = urls + '\n' + message.attachments[i].url
-                tmp = (f'  {C.libiue}URL : \n{urls}\n{C.reset}')
-                msg = (f'{urls}')
+        # output to console
+        out = f'{C.gray}{now} {C.blue}[{guild_name}]  {C.reset}@{message.channel}  {C.red}{message.author.name}{C.reset}'
+        print(out + tmp)
 
+        # send in msg channel
+        if oput_channel is not None:
+            format_kwargs = {
+                "now": now,
+                "guild": guild_name,
+                "channel": message.channel,
+                "author": message.author.name,
+                "msg": msg
+            }
+            if before_message:
+                format_kwargs["b_msg"] = self._get_msg_content(before_message)
+                format_kwargs["a_msg"] = msg
 
-            else:
-            #context
-                tmp = (f'  {C.libiue}say : {message.content}{C.reset}')
-                msg = (f'{message.content}')
-
-            #outpute
-            out = (f'{C.gray}{now} {C.blue}[{message.guild.name}]  {C.reset}@{message.channel}  {C.red}{message.author.name}{C.reset}')
-            print(out+tmp)
-            
-
-
-            #send in msg channel
-            try:
-                out = (f'**{now}** `{message.guild.name}` `{message.channel}`  **{message.author.name}**  :  {msg} ')
-                await oput_channel.send(out)
-            except AttributeError:
-                pass
-
-
+            discord_out = discord_log_fmt.format(**format_kwargs)
+            await oput_channel.send(discord_out)
+        elif ConfigInfo.listener_id is not None:
+            print(f"{C.red}Warning: output channel not found for listener.{C.reset}")
 
     @commands.Cog.listener()
-    async def on_message_edit(self, before:Message, after:Message):
-    #get message [edit]
-        oput_channel = self.client.get_channel(ConfigInfo.listener_id)
-        if after.channel == oput_channel:
-            return
-
-        else:
-            now = str(datetime.datetime.now())[:-7]
-            if len(after.embeds) >= 1:
-            #embed
-                tmp = (f'  {C.purple}edit embed : [{after.embeds[0].title}]{C.reset}')
-                msg = (f'{after.embeds[0].title}')
-
-            elif len(after.attachments) >= 1:
-            #get picture[URL]
-                urls = ('')
-                for i in range(len(after.attachments)):
-                    urls = urls + '\n' + after.attachments[i].url
-                tmp = (f'  {C.purple}edit URL : \n{urls}\n{C.reset}')
-                msg = (f'{urls}')
-
-            else:
-            #context
-                tmp = (f'  {C.purple}edit say : {after.content}{C.reset}')
-                msg = (f'{after}')
-
-            #outpute
-            out = (f'{C.gray}{now} {C.blue}[{after.guild.name}]  {C.reset}@{after.channel}  {C.red}{after.author.name}{C.reset}')
-            print(out+tmp)
-
-
-
-            #send in msg channel
-            try:
-                out = (f'**{now} UTC+0** `{after.guild.name}` `{after.channel}`  **{after.author.name}** msg edit :  {msg} ')
-                await oput_channel.send(out)
-            except AttributeError:
-                pass
-            
-
-
+    async def on_message(self, message: Message):
+        await self.log_message(
+            message, 
+            "", 
+            C.libiue, 
+            "**{now}** `{guild}` `{channel}`  **{author}**  :  {msg} "
+        )
 
     @commands.Cog.listener()
-    async def on_message_delete(self, message:Message):
-    #get message[delete]
+    async def on_message_edit(self, before: Message, after: Message):
+        await self.log_message(
+            after,
+            "edit ", 
+            C.purple, 
+            "**{now} UTC+0** `{guild}` `{channel}`  **{author}** msg edit : \n    {b_msg}\n    {a_msg} ",
+            before_message=before
+        )
 
-        oput_channel = self.client.get_channel(ConfigInfo.listener_id)
-
-        if message.channel == oput_channel:
-            return
-
-        else:
-            now = str(datetime.datetime.now())[:-7]
-            if len(message.embeds) >= 1:
-            #embed
-                tmp = (f'  {C.red}delete embed : [{message.embeds[0].title}]{C.reset}')
-                msg = (f'{message.embeds[0].title}')
-
-            elif len(message.attachments) >= 1:
-            #get picture[URL]
-                urls = ('')
-                for i in range(len(message.attachments)):
-                    urls = urls + '\n' + message.attachments[i].url
-                tmp = (f'  {C.red}delete URL : \n{urls}\n{C.reset}')
-                msg = (f'{urls}')
-
-                
-            else:
-            #context
-                tmp = (f'  {C.red}delete say : {message.content}{C.reset}')
-                msg = (f'{message.content}')
-            
-            #outpute
-            out = (f'{C.gray}{now} {C.blue}[{message.guild.name}]  {C.reset}@{message.channel}  {C.red}{message.author.name}{C.reset}')
-            print(out+tmp)
-            
-            #send in msg channel
-            try:
-                out = (f'**{now}** `{message.guild.name}` `{message.channel}`  **{message.author.name}**  msg delete:  {msg} ')
-                await oput_channel.send(out)
-            except AttributeError:
-                pass
+    @commands.Cog.listener()
+    async def on_message_delete(self, message: Message):
+        await self.log_message(
+            message, 
+            "delete ", 
+            C.red, 
+            "**{now}** `{guild}` `{channel}`  **{author}**  msg delete:  {msg} "
+        )
 
 
 async def setup(client:commands.Bot) -> None:

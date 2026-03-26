@@ -76,6 +76,8 @@ class ConfigMeta(type):
     
     @property
     def listener_id(cls):
+        if get_config().listener_id == None:
+            return None
         return get_config().listener_id
 
 class ConfigInfo(BotInfo, metaclass=ConfigMeta):
