@@ -7,7 +7,7 @@ class Color():
             self.yellow,
             self.blue,
             self.purple,
-            self.libiue,
+            self.lightblue,
             self.gray,
             self.reset
         ]
@@ -19,7 +19,7 @@ class Color():
     yellow= '\033[1;33;40m'
     blue  = '\033[1;34;40m'
     purple= '\033[1;35;40m'
-    libiue= '\033[1;36;40m'
+    lightblue= '\033[1;36;40m'
     gray  = '\033[1;31;90m'
     reset = '\033[0m'
     clear = '\033[2J'

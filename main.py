@@ -66,7 +66,7 @@ class Client(commands.AutoShardedBot):
 
     async def on_ready(self):
         dt = str(datetime.datetime.now())[:-7]
-        print(f'                    {C.libiue}Bot Version: {PureInfo.self_vsrsion}{C.reset}')
+        print(f'                    {C.lightblue}Bot Version: {PureInfo.self_version}{C.reset}')
         # TODO: 檢查 github 上的最新發布，如果有新版本則 DM bot_owner
         
         # get shard info of this process

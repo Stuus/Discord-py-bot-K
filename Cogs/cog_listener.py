@@ -21,8 +21,8 @@ class CogListener(commands.Cog):
     async def log_message(self, message: Message, action_prefix: str, color_code: str, discord_log_fmt: str, before_message: Message = None):
         guild_name = message.guild.name if message.guild else f"DM-{message.author.name}"
             
-        oput_channel = self.client.get_channel(ConfigInfo.listener_id)
-        if message.channel == oput_channel:
+        output_channel = self.client.get_channel(ConfigInfo.listener_id)
+        if message.channel == output_channel:
             return
 
         now = str(datetime.datetime.now())[:-7]
@@ -40,7 +40,7 @@ class CogListener(commands.Cog):
         print(out + tmp)
 
         # send in msg channel
-        if oput_channel is not None:
+        if output_channel is not None:
             format_kwargs = {
                 "now": now,
                 "guild": guild_name,
@@ -53,7 +53,7 @@ class CogListener(commands.Cog):
                 format_kwargs["a_msg"] = msg
 
             discord_out = discord_log_fmt.format(**format_kwargs)
-            await oput_channel.send(discord_out)
+            await output_channel.send(discord_out)
         elif ConfigInfo.listener_id is not None:
             print(f"{C.red}Warning: output channel not found for listener.{C.reset}")
 
@@ -62,7 +62,7 @@ class CogListener(commands.Cog):
         await self.log_message(
             message, 
             "", 
-            C.libiue, 
+            C.lightblue, 
             "**{now}** `{guild}` `{channel}`  **{author}**  :  {msg} "
         )
 
@@ -89,4 +89,4 @@ class CogListener(commands.Cog):
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogListener(client))
     dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.libiue}load cog_listener{C.reset}')
+    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.lightblue}load cog_listener{C.reset}')

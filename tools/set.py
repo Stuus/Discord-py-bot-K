@@ -100,7 +100,7 @@ class AutoStatus():
         return self.list
 
 class PureInfo():
-    self_vsrsion = "0.0.1.a"
+    self_version = "0.0.1.a"
     update_time = "2025/03/21"
-    lastest_function = "/record"
-    python_verson = sys.version
+    latest_function = "/record"
+    python_version = sys.version

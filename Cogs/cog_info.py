@@ -47,15 +47,15 @@ class CogInfo(commands.Cog):
             super().__init__(timeout=120)
 
         @discord.ui.button(label="close x",style=discord.ButtonStyle.red)
-        async def t1(self,interaction:discord.Interaction,Button:discord.ui.Button):
+        async def close_button(self,interaction:discord.Interaction,Button:discord.ui.Button):
             await interaction.message.delete()
 
         @discord.ui.button(label="Next ->",style=discord.ButtonStyle.green)
-        async def t2(self,interaction:discord.Interaction,Button:discord.ui.Button):
+        async def next_button(self,interaction:discord.Interaction,Button:discord.ui.Button):
             embed = discord.Embed(title=f" ",color=ConfigInfo.colour)
             embed.add_field(name=f"Update Time ",value=f'{PureInfo.update_time}')
-            embed.add_field(name=f'Lastest Update',value=f'{PureInfo.lastest_function}')
-            embed.add_field(name=f'Python Version',value=f'{PureInfo.python_verson}')
+            embed.add_field(name=f'Lastest Update',value=f'{PureInfo.latest_function}')
+            embed.add_field(name=f'Python Version',value=f'{PureInfo.python_version}')
             await interaction.response.edit_message(content="Page 2", embed=embed, view=CogInfo.PageTwo())
         
     class PageTwo(discord.ui.View):
@@ -64,11 +64,11 @@ class CogInfo(commands.Cog):
             self.page_one = CogInfo.page_one
 
         @discord.ui.button(label="close x",style=discord.ButtonStyle.red)
-        async def t1(self,interaction:discord.Interaction,Button:discord.ui.Button):
+        async def close_button(self,interaction:discord.Interaction,Button:discord.ui.Button):
             await interaction.message.delete()
 
         @discord.ui.button(label="Back <-",style=discord.ButtonStyle.green)
-        async def t2(self,interaction:discord.Interaction,Button:discord.ui.Button):
+        async def back_button(self,interaction:discord.Interaction,Button:discord.ui.Button):
             await interaction.response.edit_message(content=self.page_one, view=CogInfo.PageOne(), embed=None)
 
 
@@ -79,8 +79,8 @@ class CogInfo(commands.Cog):
         name= "get",
         description= "show sothing you want(#Just play it, if you are developers)"
     )
-    @app_commands.describe(object_you_want = "discord.Interaction")
-    async def get(self,interaction: discord.Interaction,object_you_want : str):
+    @app_commands.describe(object_you_want="discord.Interaction")
+    async def get(self,interaction: discord.Interaction,object_you_want: str):
         warnings.warn(
             "This command using getattr, malicious user could get sensitive information",
             DeprecationWarning,
@@ -112,4 +112,4 @@ class CogInfo(commands.Cog):
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogInfo(client))
     dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.libiue}load cog_info{C.reset}')
+    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.lightblue}load cog_info{C.reset}')
