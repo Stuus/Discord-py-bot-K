@@ -9,8 +9,10 @@ import time
 import os
 import sys
 import threading
+from dotenv import load_dotenv
 
-shard_count = 3
+load_dotenv()
+shard_count = int(os.getenv("SHARD_COUNT", "3"))
 
 # check if (-c or /c)
 open_new_console = "-c" in sys.argv or "/c" in sys.argv
