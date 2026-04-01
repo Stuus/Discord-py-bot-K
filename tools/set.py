@@ -27,10 +27,15 @@ def load_bot_config(*, current_data_id: int = -1) -> BotInfo:
                 print(f"{Color.purple}{bt.bot_name:>5} : \t Enter [{i}]{Color.reset}")
 
             if current_data_id == -1:
-                try:
-                    c = int(inputimeout.inputimeout(prompt=f"{Color.yellow}Eneter number(if no input will start up [0]): {Color.reset}", timeout=15))
-                except (inputimeout.TimeoutOccurred, ValueError):
-                    c = 0
+                import os
+                env_id = os.getenv("BOT_DATA_ID")
+                if env_id is not None and env_id.isdigit():
+                    c = int(env_id)
+                else:
+                    try:
+                        c = int(inputimeout.inputimeout(prompt=f"{Color.yellow}Eneter number(if no input will start up [0]): {Color.reset}", timeout=15))
+                    except (inputimeout.TimeoutOccurred, ValueError):
+                        c = 0
 
                 if 0 <= c <= len(bot_objects):
                     current_data_id = c
@@ -104,3 +109,6 @@ class PureInfo():
     update_time = "2025/03/21"
     latest_function = "/record"
     python_version = sys.version
+
+# Pre-load config to avoid blocking async contexts
+get_config()

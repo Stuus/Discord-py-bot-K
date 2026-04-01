@@ -72,39 +72,6 @@ class CogInfo(commands.Cog):
             await interaction.response.edit_message(content=self.page_one, view=CogInfo.PageOne(), embed=None)
 
 
-    #/get
-    #This command using getattr, malicious user could get sensitive information
-    """
-    @app_commands.command(
-        name= "get",
-        description= "show sothing you want(#Just play it, if you are developers)"
-    )
-    @app_commands.describe(object_you_want="discord.Interaction")
-    async def get(self,interaction: discord.Interaction,object_you_want: str):
-        warnings.warn(
-            "This command using getattr, malicious user could get sensitive information",
-            DeprecationWarning,
-            stacklevel=2
-        )
-        try:
-            path = interaction
-            for i in object_you_want.split("."):
-                path = getattr(path , i)
-            
-            result_message = f'> ```py\n> class Valume(discord.Interaction):\n>      discord.Interaction.{object_you_want}\n> \n> >>> {path}```'
-            
-            # anti leak token
-            bot_token = interaction.client.http.token
-            
-            # if contains token
-            if bot_token and bot_token in result_message:
-                result_message = result_message.replace(bot_token, "<TOKEN has been blocked>")
-
-            await interaction.response.send_message(result_message)
-
-        except AttributeError:
-            await interaction.response.send_message(f'```py\nArithmeticError : discord.Interaction object has no attribute \'{object_you_want}\'\n```')
-    """
 
 
 
