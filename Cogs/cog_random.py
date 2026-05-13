@@ -69,4 +69,4 @@ class CogRandom(commands.Cog):
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogRandom(client))
     dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.libiue}load cog_random{C.reset}')
+    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.lightblue}load cog_random{C.reset}')

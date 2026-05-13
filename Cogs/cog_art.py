@@ -37,7 +37,7 @@ class CogArt(commands.Cog):
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogArt(client))
     dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.libiue}load cog_Art{C.reset}')
+    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.lightblue}load cog_Art{C.reset}')
 
 def image_to_ascii(image_path, output_width=75)-> str:
     ASCII_CHARS = '   .-=*co+etilI#hFHER$0@'

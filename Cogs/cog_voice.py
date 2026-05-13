@@ -13,6 +13,10 @@ from discord.ext import voice_recv
 
 from tools.color import Color as C
 
+__dependencies__ = [
+    "tools/ffmpeg.exe",
+    "libopus/libopus-0.x64.dll"
+]
 
 class StatsSink(voice_recv.AudioSink):
     def __init__(self, filename):
@@ -116,6 +120,10 @@ class CogVoice(commands.Cog):
                 await asyncio.sleep(1.5)
                 vc = await target_channel.connect(cls=voice_recv.VoiceRecvClient)
         
+        if not vc.is_connected():
+            await interaction.channel.send(f"Error: Failed to connect to the voice channel {target_channel.mention}. Please try again.")
+            return
+        
         if hasattr(sys, '_MEIPASS'):
             base_path = os.path.dirname(sys.executable)
         else:
@@ -138,13 +146,19 @@ class CogVoice(commands.Cog):
         vc.listen(sink=s_sink)
         await asyncio.sleep(time)  # Record untill end
         vc.stop_listening()
-        stats_msg = "## Statistics: \n```"
+        await asyncio.sleep(1)  # Ensure all data is flushed to file
+
+        stats_msg = "## Statistics: \n```text\n"
         for uid, stat in s_sink.stats.items():
             u = f"User: {stat['name']}"
             s = f"Speak: {stat['packets'] * 0.02:.2f}s"
             p = f"packets: {stat['bytes']} bytes"
             stats_msg += f"{u:<30} | {s:<30} | {p:<30}\n"
+        if not s_sink.stats:
+            stats_msg += "No audio detected or missing Opus decoder.\n"
         stats_msg += "```"
+
+        
 
 
         if file_types == 1:  # WAV
@@ -185,4 +199,4 @@ class CogVoice(commands.Cog):
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogVoice(client))
     dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.libiue}load cog_voice{C.reset}')
+    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.lightblue}load cog_voice{C.reset}')

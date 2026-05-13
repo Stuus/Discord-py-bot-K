@@ -32,6 +32,32 @@ from tools.set import ConfigInfo, PureInfo
 
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+async def check_dependencies(c_list: list, cog_name: str):
+    if not c_list:
+        print(f"{C.red}Error: No cogs found for {cog_name}{C.reset}")
+        return
+    
+    #Check if packaged
+    if hasattr(sys, 'frozen'):
+        base_path = os.path.dirname(sys.executable)
+    else:
+        base_path = os.path.abspath(".")
+    print(f"\n{"= "*50}\n{C.purple}[{cog_name}] checking dependencies...{C.reset}")
+    all_passed = True
+    for file_path in c_list:
+        # If the file is packaged into an .exe, use sys._MEIPASS to get the base path
+        full_path = os.path.join(base_path, file_path)
+        
+        if os.path.exists(full_path):
+            print(f"{C.blue}Checker{C.reset} | [{C.green}OK{C.reset}]    found: {file_path}")
+        else:
+            print(f"{C.blue}Checker{C.reset} | [{C.yellow}ERROR{C.reset}] missing: {C.yellow}{file_path}{C.reset}")
+            all_passed = False
+            
+    if not all_passed:
+        print(f"{C.blue}Checker{C.reset} | [{C.yellow}WARNING{C.reset}] {cog_name} is missing dependencies. might cause runtime errors.")
+    
+    print(f"{C.purple}[{cog_name}] dependency check completed.{C.reset}\n{"= "*50}\n")
 
 class CogRead:
     @classmethod
@@ -80,6 +106,9 @@ class Client(commands.AutoShardedBot):
     async def setup_hook(self):
         for ext in self.cogslist:
             await self.load_extension(ext)
+            module = sys.modules.get(ext)
+            if hasattr(module, '__dependencies__'):
+                await check_dependencies(module.__dependencies__, ext)
 
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =

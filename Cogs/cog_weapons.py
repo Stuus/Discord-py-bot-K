@@ -42,4 +42,4 @@ class CogWeapons(commands.Cog):
 async def setup(client:commands.Bot) -> None:
     await client.add_cog(CogWeapons(client))
     dt = str(datetime.datetime.now())[:-7]
-    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.libiue}load cog_weapons{C.reset}')
+    print(f'{dt} {C.blue}[Cog]{C.reset} -> {C.lightblue}load cog_weapons{C.reset}')

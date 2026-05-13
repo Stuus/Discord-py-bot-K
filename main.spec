@@ -3,6 +3,8 @@ from PyInstaller.utils.hooks import collect_submodules
 
 hiddenimports = ['dotenv', 'yaml', 'inputimeout', '_cffi_backend']
 hiddenimports += collect_submodules('Cogs')
+hiddenimports += collect_submodules('PIL')
+hiddenimports += collect_submodules('discord.ext.voice_recv')
 
 
 a = Analysis(

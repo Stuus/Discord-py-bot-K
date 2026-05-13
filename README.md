@@ -43,4 +43,9 @@ client = Client()
 client.run(token)
 ```
 
+
+## Packing
+```Bash
+pyinstaller --noconfirm --clean main.spec
+```
 ---
