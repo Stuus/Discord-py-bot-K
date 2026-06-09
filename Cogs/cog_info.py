@@ -17,7 +17,7 @@ class CogInfo(commands.Cog):
 
     
     #/about
-    page_one = (f"Page one\n\
+    page_one = (rf"Page one\n\
                 \n\
                 This is a discord bot Project By <@673156876095193088>.\n\
                 [View on Github](https://github.com/Stuus/Discord-py-bot-K)\n\

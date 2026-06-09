@@ -10,13 +10,42 @@ from discord import app_commands
 from discord.app_commands import Choice
 from discord.ext import commands
 from discord.ext import voice_recv
+from discord.opus import Decoder, OpusError
+
+_original_decode = Decoder.decode
+
+def _safe_decode(self, data, *args, **kwargs):
+    try:
+        return _original_decode(self, data, *args, **kwargs)
+    except OpusError:
+        # If the stream is corrupted, return 20ms of empty PCM silence instead of crashing
+        # (48000Hz * 2 channels * 2 bytes * 0.02s = 3840 bytes)
+        return b'\x00' * 3840
+    
+Decoder.decode = _safe_decode
+
 
 from tools.color import Color as C
+
+
 
 __dependencies__ = [
     "tools/ffmpeg.exe",
     "libopus/libopus-0.x64.dll"
 ]
+opus_path = os.path.join(os.path.abspath("."), "libopus", "libopus-0.x64.dll")
+
+if not discord.opus.is_loaded():
+    try:
+        discord.opus.load_opus(opus_path)
+        print(f"{C.blue}Opus{C.reset} | [{C.green}OK{C.reset}] loaded Opus library from {opus_path}")
+    except Exception as e:
+        print(f"Failed to load Opus: {e}")
+
+class DummyData:
+    def __init__(self, pcm):
+        self.pcm = pcm
+        self.packet = None
 
 class StatsSink(voice_recv.AudioSink):
     def __init__(self, filename):
@@ -25,20 +54,37 @@ class StatsSink(voice_recv.AudioSink):
         #  { UserID: { 'packets': 0, 'bytes': 0, 'start_time': float } }
         self.stats = {} 
         self.start_time = time.time()
+        self.last_user = None
+        self.last_timestamp = None
 
     def wants_opus(self) -> bool:
         # WaveSink need PCM，return False
         return False
 
     def write(self, user, data):
-        # collect stats
-        if user:
-            user_id = user.id
-            if user_id not in self.stats:
-                self.stats[user_id] = {'packets': 0, 'bytes': 0, 'name': user.name}
-            
-            self.stats[user_id]['packets'] += 1
-            self.stats[user_id]['bytes'] += len(data.pcm)
+        if not user or not getattr(data, 'packet', None):
+            return
+
+        user_id = user.id
+        if user_id not in self.stats:
+            self.stats[user_id] = {'packets': 0, 'bytes': 0, 'name': user.name}
+        
+        self.stats[user_id]['packets'] += 1
+        self.stats[user_id]['bytes'] += len(data.pcm)
+
+        timestamp = data.packet.timestamp
+
+        # If it's the same user, calculate missing silence frames using the RTP timestamp
+        if self.last_user == user_id and self.last_timestamp is not None:
+            missing_samples = timestamp - self.last_timestamp - 960
+            if missing_samples > 0:
+                missing_frames = missing_samples // 960
+                # Limit to 10 seconds of silence to prevent giant files if someone is quiet for hours
+                if 0 < missing_frames < 500:
+                    self.wav_sink.write(user, DummyData(b'\x00' * 3840 * missing_frames))
+
+        self.last_user = user_id
+        self.last_timestamp = timestamp
 
         # write to wav sink
         self.wav_sink.write(user, data)
@@ -88,7 +134,7 @@ class CogVoice(commands.Cog):
             self,
             interaction: discord.Interaction,
             file_types: Choice[int] = 1,
-            time: discord.app_commands.Range[int, 1, 600] = 10,
+            time: discord.app_commands.Range[int, 1, 600] = 10
     ):
 
         if not interaction.user.voice.channel:
@@ -142,6 +188,7 @@ class CogVoice(commands.Cog):
         mp3_filename = f'{dt}.mp3'
 
         # Start recording
+        # Use StatsSink which now accurately inserts silence based on RTP timestamps
         s_sink = StatsSink(wav_filename)
         vc.listen(sink=s_sink)
         await asyncio.sleep(time)  # Record untill end
