@@ -20,11 +20,15 @@ class CogMention(commands.Cog):
 
 
     async def bomb(self, interaction: Interaction, user: discord.Member):
-        await interaction.response.send_message("compelete",ephemeral=True)
         channel = interaction.channel
-        for _ in range(0,10):
-            await channel.send(f'<@{user.id}>',delete_after=33.333)
-            await asyncio.sleep(0.3)
+        if isinstance(channel, discord.abc.Messageable):
+            for _ in range(0,10):
+                await channel.send(f'<@{user.id}>',delete_after=33.333)
+                await asyncio.sleep(0.3)
+                await interaction.response.send_message("complete",ephemeral=True)
+        else:
+            await interaction.response.send_message("This channel is not messageable.", ephemeral=True)
+            
 
     @app_commands.command(
         name="anon",
@@ -33,17 +37,19 @@ class CogMention(commands.Cog):
     @app_commands.describe(
         channel_id = "channel's ID ,if not found or None will return current channel"
     )
-    async def anon(self, interaction: Interaction, message: str, channel_id: Optional[str]):
-        try:
-            channel_id = int(channel_id)
-        except:
-            channel_id = 0
-        if self.client.get_channel(int(channel_id)) == None:
-            channel = interaction.channel
-        else:
-            channel = self.client.get_channel(int(channel_id))
-        await interaction.response.send_message("compelepe!",ephemeral=True)
-        msg = await channel.send(f'> ***Anonymous_user*** : {message}')
+    async def anon(self, interaction: Interaction, message: str, channel_id: Optional[int]):
+        
+        _get_channel = self.client.get_channel(channel_id) if channel_id is not None else interaction.channel
+
+        if _get_channel is None:
+            await interaction.response.send_message("Channel not found.", ephemeral=True)
+            return
+        elif not isinstance(_get_channel, discord.abc.Messageable):
+            await interaction.response.send_message("Designated channel is not messageable.", ephemeral=True)
+            return
+        
+        await interaction.response.send_message("complete", ephemeral=True)
+        msg = await _get_channel.send(f'> ***Anonymous_user*** : {message}')
         dt = str(datetime.datetime.now())[:-7]
         print(f'{dt} {C.red}[Anonymous] -> (user : {interaction.user}, ID : {interaction.user.id}) | (message: {message} ,id: {msg.id}{C.reset})')
 

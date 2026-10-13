@@ -41,7 +41,7 @@ class CogListener(commands.Cog):
         print(out + tmp)
 
         # send in msg channel
-        if isinstance(output_channel, discord.abc.Messageable):
+        if isinstance(output_channel, (discord.TextChannel, discord.Thread, discord.DMChannel, discord.GroupChannel)):
             format_kwargs = {
                 "now": now,
                 "guild": guild_name,

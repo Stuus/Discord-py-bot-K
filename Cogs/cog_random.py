@@ -16,7 +16,7 @@ class CogRandom(commands.Cog):
         self.client = client
 
     class Tmp():
-        option = []
+        option: list = []
 
     class RandomModal(discord.ui.Modal, title = "又選不出來了?"):
         opt : discord.ui.TextInput = discord.ui.TextInput(label="增加選項",placeholder="打甚麼都可以")
@@ -61,8 +61,8 @@ class CogRandom(commands.Cog):
                     v = f'```ini\n{view}\n{number}%\n```'
                     embed.add_field(name=self.Tmp.option[i][1],value=v,inline=False)
                     
-                await interaction.response.send_message("GG",delete_after=0.1)
-                await interaction.channel.send(embed=embed)
+                await interaction.response.send_message(embed=embed)
+                
                 self.Tmp.option = []
 
 
