@@ -118,17 +118,21 @@ if __name__ == "__main__":
         load_dotenv()
         env_token = os.getenv(f"{ConfigInfo.bot_name}_TOKEN")
         
-        shard_kwargs = {}
+        shard_kwargs: dict[str, typing.Any] = {}
         # If .env file has SHARD_ID, it will enable manual sharding and lock a single Shard
-        if os.getenv("SHARD_ID") is not None:
-            shard_kwargs['shard_ids'] = [int(os.getenv("SHARD_ID"))]
+        if (shard_id_env := os.getenv("SHARD_ID")) is not None:
+            ids = [shard_id_env]
+            shard_kwargs['shard_ids'] = [int(i) for i in ids]
             # Read the total number of shards (default to 3 to prevent errors)
             shard_kwargs['shard_count'] = int(os.getenv("SHARD_COUNT", "3"))
 
         # if kwargs is empty, AutoShardedBot will automatically start and take over all shards
         client = Client(command_prefix=ConfigInfo.command_prefix,**shard_kwargs)
 
-        client.run(token= env_token)
+        if env_token is None:
+            raise ValueError(f"Missing environment variable: {ConfigInfo.bot_name}_TOKEN")
+
+        client.run(token=env_token)
     except Exception as e:
         print(f"{C.red}Error while running bot process: {e}{C.reset}")
         traceback.print_exc()

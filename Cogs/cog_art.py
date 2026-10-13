@@ -1,11 +1,13 @@
 import datetime
 import discord
 import os
+import pathlib
 import PIL
 
 
 from discord import app_commands
 from discord.ext import commands
+from pathlib import Path
 from PIL import Image
 
 from tools.color import Color as C
@@ -28,7 +30,7 @@ class CogArt(commands.Cog):
                     os.remove('./assets/tmp/img.png')
                 except FileNotFoundError:
                     pass
-                await attachment.save(fp='./assets/tmp/img.png')
+                await attachment.save(fp=Path('./assets/tmp/img.png'))
                 result = f"```\n{image_to_ascii(image_path='assets/tmp/img.png',output_width=50)}\n```"
                 await interaction.response.send_message(content=result)
             else:
@@ -43,10 +45,10 @@ def image_to_ascii(image_path, output_width=75)-> str:
     ASCII_CHARS = '   .-=*co+etilI#hFHER$0@'
     
     try:
-        img = Image.open(image_path)
+        img_file = Image.open(image_path)
     except FileNotFoundError:
         return f"Error: Image file not found at {image_path}"
-    img = img.convert('L') 
+    img = img_file.convert('L') 
 
     width, height = img.size
     aspect_ratio = height/width
@@ -55,7 +57,7 @@ def image_to_ascii(image_path, output_width=75)-> str:
 
     char_step_size = 256 / len(ASCII_CHARS) 
     
-    pixels = img.getdata()
+    pixels = list(img.getdata())
     ascii_str = ''
     
     for pixel_value in pixels:

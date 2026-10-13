@@ -60,7 +60,7 @@ def load_bot_data(path,*,pass_none : bool | None = True):
 class YamlLoaderError(Exception):
     pass
 
-def yaml_loader(path : str, * , mode : str | None = "r", encode : str | None = "utf-8") -> Dict[str, List]:
+def yaml_loader(path : str, * , mode : str = "r", encode : str | None = "utf-8") -> Dict[str, List]:
     """
     Read yaml file and return a dict
 

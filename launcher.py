@@ -29,7 +29,7 @@ print(f"Preparing to start {shard_count} shards...")
 # use dynamic path to lock the same directory main.exe, ensure that the execution after packaging does not report errors
 exe_path = os.path.join(os.path.dirname(sys.executable if getattr(sys, 'frozen', False) else sys.argv[0]), "main.exe")
 
-processes = []
+processes : list = []
 shutting_down = False
 
 def monitor_shard(shard_id):

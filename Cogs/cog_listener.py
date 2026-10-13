@@ -1,5 +1,6 @@
 import datetime
 import discord
+from typing import Optional
 
 from discord import Message
 from discord.ext import commands
@@ -18,7 +19,7 @@ class CogListener(commands.Cog):
             return '\n'.join(att.url for att in message.attachments)
         return message.content or str(message)
 
-    async def log_message(self, message: Message, action_prefix: str, color_code: str, discord_log_fmt: str, before_message: Message = None):
+    async def log_message(self, message: Message, action_prefix: str, color_code: str, discord_log_fmt: str, before_message: Optional[Message] = None):
         guild_name = message.guild.name if message.guild else f"DM-{message.author.name}"
             
         output_channel = self.client.get_channel(ConfigInfo.listener_id)
@@ -40,7 +41,7 @@ class CogListener(commands.Cog):
         print(out + tmp)
 
         # send in msg channel
-        if output_channel is not None:
+        if isinstance(output_channel, discord.abc.Messageable):
             format_kwargs = {
                 "now": now,
                 "guild": guild_name,
@@ -51,9 +52,10 @@ class CogListener(commands.Cog):
             if before_message:
                 format_kwargs["b_msg"] = self._get_msg_content(before_message)
                 format_kwargs["a_msg"] = msg
-
+                
             discord_out = discord_log_fmt.format(**format_kwargs)
             await output_channel.send(discord_out)
+            
         elif ConfigInfo.listener_id is not None:
             print(f"{C.red}Warning: output channel not found for listener.{C.reset}")
 

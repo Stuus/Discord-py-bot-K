@@ -48,7 +48,10 @@ class CogInfo(commands.Cog):
 
         @discord.ui.button(label="close x",style=discord.ButtonStyle.red)
         async def close_button(self,interaction:discord.Interaction,Button:discord.ui.Button):
-            await interaction.message.delete()
+            if interaction.message:
+                await interaction.message.delete()
+            else:
+                await interaction.response.defer()
 
         @discord.ui.button(label="Next ->",style=discord.ButtonStyle.green)
         async def next_button(self,interaction:discord.Interaction,Button:discord.ui.Button):
@@ -65,7 +68,10 @@ class CogInfo(commands.Cog):
 
         @discord.ui.button(label="close x",style=discord.ButtonStyle.red)
         async def close_button(self,interaction:discord.Interaction,Button:discord.ui.Button):
-            await interaction.message.delete()
+            if interaction.message:
+                await interaction.message.delete()
+            else:
+                await interaction.response.defer()
 
         @discord.ui.button(label="Back <-",style=discord.ButtonStyle.green)
         async def back_button(self,interaction:discord.Interaction,Button:discord.ui.Button):

@@ -1,7 +1,7 @@
 import discord
 import sys
 import time
-import inputimeout
+import inputimeout # type: ignore
 
 from . import yaml_tool
 from .yaml_tool import BotInfo
